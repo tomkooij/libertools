@@ -8,6 +8,12 @@ Sub SplitDocumentInLossePDFsPerSectie()
     ' Sla huidig bestand op!
     ActiveDocument.Save
 
+    If InStrRev(ActiveDocument.Name, ".") <> 0 Then
+        BestandsNaamStr = Left(ActiveDocument.Name, InStrRev(ActiveDocument.Name, ".") - 1)
+    Else
+        BestandsNaamStr = ActiveDocument.Name
+    End If
+
     ' kies uitvoer map
     Dim folder As FileDialog
     Set folder = Application.FileDialog(msoFileDialogFolderPicker)
@@ -34,7 +40,7 @@ Sub SplitDocumentInLossePDFsPerSectie()
 
             ' maak bestandsnaam als string
             ' eerste sectie heet _par_0 de eerste paragraaf (tweede sectie) heet _par_1 enzovoort
-            strFileName = "output" & "_par_" & DocNum
+            strFileName = BestandsNaamStr & "_par_" & DocNum
             DocNum = DocNum + 1
 
             ' sla op als .docx
